@@ -1,4 +1,4 @@
-package us.proximal.spellwithme.controller;
+package us.proximal.spellwithme.controller.web;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

@@ -2,7 +2,7 @@ package us.proximal.spellwithme.model.dao;
 
 import java.util.ArrayList;
 
-import us.proximal.spellwithme.controller.WordServiceStub;
+import us.proximal.spellwithme.controller.test.TWordsService;
 import us.proximal.spellwithme.model.dto.PersonDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
 
@@ -12,10 +12,10 @@ import us.proximal.spellwithme.model.dto.WordDTO;
 public class VocabularyDAO {
     ArrayList<WordDTO> words;
     PersonDTO speller;
-    WordServiceStub service;
+    TWordsService service;
 
     public VocabularyDAO(PersonDTO person){
-        service = new WordServiceStub();
+        service = new TWordsService();
         words = service.getVocabulary(person);
 
     }

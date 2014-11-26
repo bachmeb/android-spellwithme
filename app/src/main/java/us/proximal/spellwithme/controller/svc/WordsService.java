@@ -1,4 +1,4 @@
-package us.proximal.spellwithme.controller;
+package us.proximal.spellwithme.controller.svc;
 
 import us.proximal.spellwithme.model.dao.WordsDAO;
 import us.proximal.spellwithme.model.def.IWordsDAO;
@@ -7,10 +7,10 @@ import us.proximal.spellwithme.model.dto.WordDTO;
 /**
  * Created by b on 11/24/14.
  */
-public class WordService {
+public class WordsService {
     IWordsDAO dao;
 
-    public WordService(){
+    public WordsService(){
         dao = new WordsDAO();
     }
 

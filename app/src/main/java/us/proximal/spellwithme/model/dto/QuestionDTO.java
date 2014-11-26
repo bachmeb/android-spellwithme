@@ -10,7 +10,15 @@ public class QuestionDTO {
     private String description;
     private String text;
     private String type;
+    private String word;
 
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
 
     public int getQuestionId() {
         return questionId;
