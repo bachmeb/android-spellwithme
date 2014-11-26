@@ -2,73 +2,85 @@ package us.proximal.spellwithme.controller.test;
 
 import java.util.ArrayList;
 
+import us.proximal.spellwithme.controller.def.IWordsService;
 import us.proximal.spellwithme.model.dao.WordsDAO;
 import us.proximal.spellwithme.model.def.IWordsDAO;
-import us.proximal.spellwithme.model.dto.PersonDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
 
 /**
  * Created by b on 11/24/14.
  */
-public class TWordsService {
+public class TWordsService implements IWordsService{
     IWordsDAO dao;
-
-    WordDTO[] words;
-
-    ArrayList<WordDTO> vocabulary;
-    ArrayList<WordDTO> dictionary;
-
 
     public TWordsService(){
 
         dao = new WordsDAO();
-        words = makeWords();
+
     }
 
-    private WordDTO[] makeWords() {
-        WordDTO single;
-        WordDTO[] set = new WordDTO[1000];
-
-        single = new WordDTO();
-
-        single.setWord("apple");
-        set[0]=single;
-
-        single = new WordDTO();
-        single.setWord("banana");
-        set[1]=single;
-
-        single = new WordDTO();
-        single.setWord("cherry");
-        set[2]=single;
-
-        single = new WordDTO();
-        single.setWord("dog");
-        set[3]=single;
-
-
-        return set;
-    }
-
-    public WordDTO getNewWord(){
-        WordDTO word;
-
-        int rand = (int) (4 * Math.random());
-
-        //word = dao.random();
-
-        word = words[rand];
-
+    @Override
+    public WordDTO getRandomWord() {
+        WordDTO word = new WordDTO();
+        word.setWord("random");
         return word;
     }
 
-    public ArrayList<WordDTO> getVocabulary(PersonDTO person) {
-        return null;
+    @Override
+    public WordDTO getWordById(int wordId) {
+
+        WordDTO word = new WordDTO();
+        word.setWord("byid");
+        return word;
+
     }
 
-    public ArrayList<WordDTO> getDictionary() {
-        //dictionary =
-        //return dictionary;
-        return null;
+    @Override
+    public WordDTO getWordByText(String text) {
+
+        WordDTO word = new WordDTO();
+        word.setWord("bytext");
+        return word;
+    }
+
+    @Override
+    public WordDTO getWordByLength(int length) {
+
+        WordDTO word = new WordDTO();
+        word.setWord("bylength");
+        return word;
+    }
+
+    @Override
+    public WordDTO getWordByType(String type) {
+
+        WordDTO word = new WordDTO();
+        word.setWord("bytype");
+        return word;
+    }
+
+    @Override
+    public ArrayList<WordDTO> getDolchWords() {
+
+        WordDTO word = new WordDTO();
+        word.setWord("dolch");
+
+        ArrayList<WordDTO> words = new ArrayList<WordDTO>();
+        words.add(word);
+
+        return words;
+
+    }
+
+    @Override
+    public ArrayList<WordDTO> getFryWords() {
+
+        WordDTO word = new WordDTO();
+        word.setWord("fry");
+
+        ArrayList<WordDTO> words = new ArrayList<WordDTO>();
+        words.add(word);
+
+        return words;
     }
 }
