@@ -1,14 +1,19 @@
-package us.proximal.spellwithme;
+package us.proximal.spellwithme.controller;
 
 import java.util.ArrayList;
+
+import us.proximal.spellwithme.model.dao.WordsDAO;
+import us.proximal.spellwithme.model.def.IWordsDAO;
+import us.proximal.spellwithme.model.dto.PersonDTO;
+import us.proximal.spellwithme.model.dto.WordDTO;
 
 /**
  * Created by b on 11/24/14.
  */
 public class WordServiceStub {
-    IWordDAO dao;
+    IWordsDAO dao;
 
-    WordDTO [] words;
+    WordDTO[] words;
 
     ArrayList<WordDTO> vocabulary;
     ArrayList<WordDTO> dictionary;
@@ -16,7 +21,7 @@ public class WordServiceStub {
 
     public WordServiceStub(){
 
-        dao = new WordDAO();
+        dao = new WordsDAO();
         words = makeWords();
     }
 

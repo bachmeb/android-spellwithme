@@ -1,9 +1,12 @@
-package us.proximal.spellwithme;
+package us.proximal.spellwithme.model.dao;
+
+import us.proximal.spellwithme.model.def.IWordsDAO;
+import us.proximal.spellwithme.model.dto.WordDTO;
 
 /**
  * Created by b on 11/24/14.
  */
-public class WordDAO implements IWordDAO {
+public class WordsDAO implements IWordsDAO {
 
     @Override
     public void create(WordDTO word) {

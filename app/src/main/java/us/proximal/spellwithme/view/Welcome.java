@@ -1,4 +1,4 @@
-package us.proximal.spellwithme;
+package us.proximal.spellwithme.view;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,6 +23,12 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import us.proximal.spellwithme.controller.ProximalRestClient;
+import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.controller.SetGetGoClient;
+import us.proximal.spellwithme.model.dto.WordDTO;
+import us.proximal.spellwithme.controller.WordServiceStub;
+
 
 public class Welcome extends Activity {
 
@@ -41,7 +47,6 @@ public class Welcome extends Activity {
 
     private static final String QUERY_URL = "http://openlibrary.org/search.json?q=";
     private static final String HEROKU_URL = "http://proximal.herokuapp.com/api/v1/standards";
-
 
 
     @Override
@@ -153,7 +158,7 @@ public class Welcome extends Activity {
             public void onFailure(int statusCode,
                                   org.apache.http.Header[] headers,
                                   java.lang.Throwable throwable,
-                                  org.json.JSONObject errorResponse){
+                                  org.json.JSONObject errorResponse) {
                 System.out.println("fail 1");
 
             }
@@ -162,7 +167,7 @@ public class Welcome extends Activity {
             public void onFailure(int statusCode,
                                   org.apache.http.Header[] headers,
                                   java.lang.Throwable throwable,
-                                  org.json.JSONArray errorResponse){
+                                  org.json.JSONArray errorResponse) {
                 System.out.println("fail 2");
 
             }
@@ -171,31 +176,33 @@ public class Welcome extends Activity {
             public void onFailure(int statusCode,
                                   org.apache.http.Header[] headers,
                                   java.lang.String responseString,
-                                  java.lang.Throwable throwable){
+                                  java.lang.Throwable throwable) {
                 System.out.println("fail 3");
 
             }
+
             @Override
             public final void onFailure(int statusCode,
                                         org.apache.http.Header[] headers,
                                         byte[] responseBytes,
-                                        java.lang.Throwable throwable){
+                                        java.lang.Throwable throwable) {
                 System.out.println("Status code: " + statusCode);
                 System.out.println("Throwable: " + throwable.toString());
-                for(int i=0;i<headers.length;i++){
+                for (int i = 0; i < headers.length; i++) {
                     System.out.println("Header: " + headers[i]);
 
                 }
 
 
             }
+
             @Override
             public void onSuccess(int statusCode,
                                   org.apache.http.Header[] headers,
-                                  java.lang.String responseString){
+                                  java.lang.String responseString) {
                 System.out.println("success 1");
                 System.out.println("Status code: " + statusCode);
-                for(int i=0;i<headers.length;i++){
+                for (int i = 0; i < headers.length; i++) {
                     System.out.println("Header: " + headers[i]);
 
                 }
@@ -206,6 +213,7 @@ public class Welcome extends Activity {
 
 
             }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
@@ -378,7 +386,7 @@ public class Welcome extends Activity {
                 public void onFailure(int statusCode,
                                       org.apache.http.Header[] headers,
                                       java.lang.Throwable throwable,
-                                      org.json.JSONObject errorResponse){
+                                      org.json.JSONObject errorResponse) {
                     System.out.println("fail 1");
 
                 }
@@ -387,7 +395,7 @@ public class Welcome extends Activity {
                 public void onFailure(int statusCode,
                                       org.apache.http.Header[] headers,
                                       java.lang.Throwable throwable,
-                                      org.json.JSONArray errorResponse){
+                                      org.json.JSONArray errorResponse) {
                     System.out.println("fail 2");
 
                 }
@@ -396,39 +404,41 @@ public class Welcome extends Activity {
                 public void onFailure(int statusCode,
                                       org.apache.http.Header[] headers,
                                       java.lang.String responseString,
-                                      java.lang.Throwable throwable){
+                                      java.lang.Throwable throwable) {
                     System.out.println("fail 3");
 
                 }
+
                 @Override
                 public final void onFailure(int statusCode,
                                             org.apache.http.Header[] headers,
                                             byte[] responseBytes,
-                                            java.lang.Throwable throwable){
+                                            java.lang.Throwable throwable) {
                     System.out.println("Status code: " + statusCode);
                     System.out.println("Throwable: " + throwable.toString());
-                    for(int i=0;i<headers.length;i++){
+                    for (int i = 0; i < headers.length; i++) {
                         System.out.println("Header: " + headers[i]);
 
                     }
 
 
                 }
+
                 @Override
                 public void onSuccess(int statusCode,
                                       org.apache.http.Header[] headers,
-                                      java.lang.String responseString){
+                                      java.lang.String responseString) {
                     System.out.println("success 1");
                     System.out.println("Status code: " + statusCode);
-                    for(int i=0;i<headers.length;i++){
+                    for (int i = 0; i < headers.length; i++) {
                         System.out.println("Header: " + headers[i]);
 
                     }
                     System.out.println("Response string: " + responseString);
 
 
-
                 }
+
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // If the response is JSONObject instead of expected JSONArray

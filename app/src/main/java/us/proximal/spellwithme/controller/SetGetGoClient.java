@@ -1,4 +1,4 @@
-package us.proximal.spellwithme;
+package us.proximal.spellwithme.controller;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -7,9 +7,9 @@ import com.loopj.android.http.RequestParams;
 /**
  * Created by b on 11/26/14.
  */
-public class ProximalRestClient {
+public class SetGetGoClient {
 
-    private static final String BASE_URL = "http://proximal.herokuapp.com/api/v1/standards";
+    private static final String BASE_URL = "http://randomword.setgetgo.com/get.php";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

@@ -1,13 +1,17 @@
-package us.proximal.spellwithme;
+package us.proximal.spellwithme.controller;
+
+import us.proximal.spellwithme.model.dao.WordsDAO;
+import us.proximal.spellwithme.model.def.IWordsDAO;
+import us.proximal.spellwithme.model.dto.WordDTO;
 
 /**
  * Created by b on 11/24/14.
  */
 public class WordService {
-    IWordDAO dao;
+    IWordsDAO dao;
 
     public WordService(){
-        dao = new WordDAO();
+        dao = new WordsDAO();
     }
 
     public WordDTO getNewWord(){

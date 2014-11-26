@@ -1,9 +1,11 @@
-package us.proximal.spellwithme;
+package us.proximal.spellwithme.model.def;
+
+import us.proximal.spellwithme.model.dto.WordDTO;
 
 /**
  * Created by b on 11/24/14.
  */
-public interface IWordDAO {
+public interface IWordsDAO {
 
     public void create(WordDTO word);
 
