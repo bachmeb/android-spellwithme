@@ -13,42 +13,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Word"
+        android:text="Test Page"
         android:id="@+id/textWord"
-        android:layout_marginTop="51dp"
-        android:layout_below="@+id/textVocabulary"
+        android:layout_marginTop="16dp"
+
         android:layout_centerHorizontal="true"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Score"
-        android:id="@+id/textScore"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Vocabulary"
-        android:id="@+id/textVocabulary"
-
-        android:layout_alignBottom="@+id/textScore"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Got It"
-        android:id="@+id/buttonGotIt"
+        android:text="Prime Words"
+        android:id="@+id/buttonPrimeWords"
 
         android:layout_marginTop="20dp"
         android:layout_below="@+id/textWord"
@@ -58,8 +36,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Missed It"
-        android:id="@+id/buttonMissedIt"
+        android:text="Make Database"
+        android:id="@+id/buttonMakeDatabase"
 
 
         android:layout_marginTop="80dp"
@@ -70,8 +48,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Query Books"
-        android:id="@+id/buttonQueryBooks"
+        android:text="Toast Word"
+        android:id="@+id/buttonToastWord"
 
         android:layout_marginTop="140dp"
         android:layout_below="@+id/textWord"
@@ -82,8 +60,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Query Heroku"
-        android:id="@+id/buttonQueryHeroku"
+        android:text="Delete Table"
+        android:id="@+id/buttonDeleteTable"
 
         android:layout_marginTop="200dp"
         android:layout_below="@+id/textWord"
@@ -95,7 +73,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Query Google"
+        android:text=" "
         android:id="@+id/buttonQueryGoogle"
 
         android:layout_marginTop="260dp"

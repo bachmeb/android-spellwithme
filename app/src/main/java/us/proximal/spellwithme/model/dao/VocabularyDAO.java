@@ -16,7 +16,7 @@ public class VocabularyDAO {
 
     public VocabularyDAO(PersonDTO person){
         service = new TWordsService();
-        words = service.getVocabulary(person);
+        //words = service.getVocabulary(person);
 
     }
 

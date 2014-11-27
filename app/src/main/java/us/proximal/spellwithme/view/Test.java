@@ -1,12 +1,132 @@
 package us.proximal.spellwithme.view;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.model.dao.WordsDAO;
+import us.proximal.spellwithme.model.def.IWordsDAO;
+import us.proximal.spellwithme.model.dto.WordDTO;
+import us.proximal.spellwithme.model.prime.PrimeWords;
+
 public class Test extends BaseActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_test);
-//    }
+
+    Button btnPrimeWords;
+    Button btnMakeDatabase;
+    Button btnToastWord;
+    Button btnDeleteTable;
+
+    //give the UI a service object
+    PrimeWords prime;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test);
+
+        prime = new PrimeWords();
+
+        //instantiate the buttons in the onCreate method
+        btnPrimeWords = (Button) findViewById(R.id.buttonPrimeWords);
+        btnMakeDatabase = (Button) findViewById(R.id.buttonMakeDatabase);
+        btnToastWord = (Button) findViewById(R.id.buttonToastWord);
+        btnDeleteTable = (Button) findViewById(R.id.buttonDeleteTable);
+
+        //attach onClick listener to the button object
+        btnMakeDatabase.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View currentView) {
+                                                   makeDatabase();
+                                               }
+                                           }
+        );
+
+        //attach onClick listener to the button object
+        btnPrimeWords.setOnClickListener(new View.OnClickListener() {
+                                             @Override
+                                             public void onClick(View currentView) {
+                                                 primeWords();
+                                             }
+                                         }
+        );
+
+        //attach onClick listener to the button object
+        btnToastWord.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View currentView) {
+                                                toastWord();
+                                            }
+                                        }
+        );
+
+        //attach onClick listener to the button object
+        btnDeleteTable.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View currentView) {
+                                                deleteTable();
+                                            }
+                                        }
+        );
+    }
+
+    public void makeDatabase(){
+        WordDTO word = new WordDTO();
+        word.setWord("blank");
+        IWordsDAO dao = new WordsDAO(this);
+        dao.create(word);
+        try {
+            dao.read("blank");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void toastWord(){
+        IWordsDAO dao = new WordsDAO(this);
+        WordDTO word = new WordDTO();
+        String toast;
+
+
+        ArrayList<WordDTO> words = dao.list();
+        int count = words.size();
+
+        int rand = (int) (count * Math.random());
+
+        try {
+            //word.setWord(dao.read("the").getWord());
+            word.setWord(dao.read(rand).getWord());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(), "The word is: " + word.getWord(), Toast.LENGTH_LONG).show();
+
+
+
+    }
+
+    public void primeWords(){
+        Toast.makeText(getApplicationContext(), "Here we go...", Toast.LENGTH_LONG).show();
+
+        //send the service object this ui object
+        prime.fillTheDatabaseWithWords(this);
+
+        Toast.makeText(getApplicationContext(), "Call to prime done!", Toast.LENGTH_LONG).show();
+
+    }
+
+    public void deleteTable(){
+        IWordsDAO dao = new WordsDAO(this);
+        ArrayList<WordDTO> words = dao.list();
+        int count = words.size();
+
+        Toast.makeText(getApplicationContext(), "There are " + count + " words in the words table.", Toast.LENGTH_LONG).show();
+
+    }
 //
 //
 //    private void querySetGetGo() {

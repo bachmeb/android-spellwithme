@@ -1,5 +1,7 @@
 package us.proximal.spellwithme.model.def;
 
+import java.util.ArrayList;
+
 import us.proximal.spellwithme.model.dto.WordDTO;
 
 /**
@@ -7,16 +9,17 @@ import us.proximal.spellwithme.model.dto.WordDTO;
  */
 public interface IWordsDAO {
 
-    public void create(WordDTO word);
+    public boolean create(WordDTO word);
 
-    public WordDTO read(int wordId);
+    public WordDTO read(int wordId) throws Exception;
+
+    public WordDTO read(String word) throws Exception;
 
     public void update(WordDTO word);
 
     public void delete(WordDTO word);
 
-    public WordDTO [] list();
+    public ArrayList<WordDTO> list();
 
-    public WordDTO random();
 
 }
