@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.controller.def.IQuestionsService;
 import us.proximal.spellwithme.controller.def.IWordsService;
 import us.proximal.spellwithme.controller.svc.WordsService;
 
@@ -16,12 +17,18 @@ public class Spell extends BaseActivity {
     Button btnIncorrect;
     TextView txtWord;
 
+    IWordsService svcWords;
+    IQuestionsService svcQuestions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell);
 
-        //Intialize ui objects
+        //Initialize words service
+        svcWords = new WordsService(this);
+
+        //Initialize ui objects
         btnCorrect = (Button) findViewById(R.id.buttonSpellIncorrect);
         btnIncorrect = (Button) findViewById(R.id.buttonSpellCorrect);
         txtWord = (TextView) findViewById(R.id.textSpellWord);
@@ -50,17 +57,25 @@ public class Spell extends BaseActivity {
     }
 
     public void answerCorrect(){
-        makeToast("correct");
+        //make a record in the database to note this event
+
+
+        //makeToast("correct");
         setSpellingWord();
     }
 
     public void answerIncorrect(){
-        makeToast("incorrect");
+        //make a record in the database to note this event
+
+
+        //makeToast("incorrect");
         setSpellingWord();
     }
 
+    /*
+    General method for making toast
+    */
     public void makeToast(String toast){
-
 
         Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
 
@@ -68,9 +83,8 @@ public class Spell extends BaseActivity {
     }
 
     public void setSpellingWord(){
-        IWordsService service = new WordsService(this);
 
-        txtWord.setText(service.getRandomWord().getWord());
+        txtWord.setText(svcWords.getRandomWord().getWord());
 
 
     }

@@ -8,9 +8,20 @@ import us.proximal.spellwithme.model.dto.QuestionDTO;
  */
 public interface IQuestionsService {
 
+    /*
+    Ask a random question
+     */
     public QuestionDTO ask(int studentId, int mkoId) throws Exception;
 
-    public void answer(int studentId, int mkoId, AnswerDTO answer) throws Exception;
+    /*
+    Ask a specific question
+     */
+    public QuestionDTO ask(int studentId, int mkoId, int questionId) throws Exception;
+
+    /*
+    Answer a question
+     */
+    public void answer(AnswerDTO answer) throws Exception;
 
 
 }
