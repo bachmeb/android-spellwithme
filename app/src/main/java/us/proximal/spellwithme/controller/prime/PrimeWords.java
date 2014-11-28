@@ -1,4 +1,4 @@
-package us.proximal.spellwithme.model.prime;
+package us.proximal.spellwithme.controller.prime;
 
 import android.content.Context;
 

@@ -11,9 +11,7 @@ public interface IAnswersDAO {
 
     boolean create(AnswerDTO answer) throws Exception;
 
-    AnswerDTO read(int accountId) throws Exception;
-
-    AnswerDTO read(String qText) throws Exception;
+    AnswerDTO read(int answerId) throws Exception;
 
     boolean update(AnswerDTO answer) throws Exception;
 

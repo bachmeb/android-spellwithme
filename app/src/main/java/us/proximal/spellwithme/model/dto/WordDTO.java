@@ -5,35 +5,29 @@ package us.proximal.spellwithme.model.dto;
  */
 public class WordDTO {
 
+    int wordId;
+    String word;
     String letters[];
     int length;
-    String begins;
-    String ends;
-    String word;
-    private String category;
-
-    /*
-        Noun
-        Verb
-        Adjective
-        Adverb
-        Pronoun
-        Preposition
-        Conjunction
-        Determiner
-        Exclamation
-    */
-
-    private String language;
+    String beginsWith;
+    String endsWith;
+    private String category; /* Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Determiner, Exclamation */
+    private String language; /* English */
     private boolean dolch;
     private boolean fry;
     private boolean gensvc;
     private boolean swadesh;
-
-
     private boolean leipzig;
-    private String vowel;
+    private String vowelSound;
 
+
+    public int getWordId() {
+        return wordId;
+    }
+
+    public void setWordId(int wordId) {
+        this.wordId = wordId;
+    }
 
     public String getCategory() {
         return category;
@@ -91,12 +85,12 @@ public class WordDTO {
         this.leipzig = leipzig;
     }
 
-    public String getVowel() {
-        return vowel;
+    public String getVowelSound() {
+        return vowelSound;
     }
 
-    public void setVowel(String vowel) {
-        this.vowel = vowel;
+    public void setVowelSound(String vowelSound) {
+        this.vowelSound = vowelSound;
     }
 
     public String[] getLetters() {
@@ -115,20 +109,20 @@ public class WordDTO {
         this.length = length;
     }
 
-    public String getBegins() {
-        return begins;
+    public String getBeginsWith() {
+        return beginsWith;
     }
 
-    public void setBegins(String begins) {
-        this.begins = begins;
+    public void setBeginsWith(String beginsWith) {
+        this.beginsWith = beginsWith;
     }
 
-    public String getEnds() {
-        return ends;
+    public String getEndsWith() {
+        return endsWith;
     }
 
-    public void setEnds(String ends) {
-        this.ends = ends;
+    public void setEndsWith(String endsWith) {
+        this.endsWith = endsWith;
     }
 
     public String getWord() {

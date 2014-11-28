@@ -20,11 +20,21 @@ public class QuestionsService implements IQuestionsService {
     IAnswersDAO daoAnswers;
     ArrayList<QuestionDTO> questions;
 
+    /*
+    Constructor
+     */
     public QuestionsService(Context ctx){
         daoQuestions = new QuestionsDAO(ctx);
-        questions = daoQuestions.list();
+        try {
+            questions = daoQuestions.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    /*
+    Ask random
+     */
     @Override
     public QuestionDTO ask(int studentId, int mkoId) throws Exception {
         QuestionDTO q;
@@ -34,6 +44,9 @@ public class QuestionsService implements IQuestionsService {
         return q;
     }
 
+    /*
+    Ask specific
+     */
     @Override
     public QuestionDTO ask(int studentId, int mkoId, int questionId) throws Exception {
         QuestionDTO q;
@@ -41,6 +54,9 @@ public class QuestionsService implements IQuestionsService {
         return q;
     }
 
+    /*
+    Create an answer record
+     */
     @Override
     public void answer(AnswerDTO answer) throws Exception {
         daoAnswers.create(answer);

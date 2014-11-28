@@ -9,7 +9,7 @@ import java.util.Date;
 
 import us.proximal.spellwithme.R;
 import us.proximal.spellwithme.controller.def.IQuestionsService;
-import us.proximal.spellwithme.controller.test.TQuestionsService;
+import us.proximal.spellwithme.controller.svc.QuestionsService;
 import us.proximal.spellwithme.model.dto.AnswerDTO;
 import us.proximal.spellwithme.model.dto.QuestionDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
@@ -24,7 +24,7 @@ public class Read extends BaseActivity {
     private QuestionDTO question;
 
     //Declare service
-    private IQuestionsService service;
+    private IQuestionsService svcQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,48 +32,27 @@ public class Read extends BaseActivity {
         setContentView(R.layout.activity_read);
 
         //Instantiate service
-        //service = new QuestionsService();
-        service = new TQuestionsService();
+        svcQuestions = new QuestionsService(this);
+        //svcQuestions = new TQuestionsService();
 
         //instantiate the ui components in the onCreate method
         btnReadYes = (Button) findViewById(R.id.buttonReadYes);
         btnReadNo = (Button) findViewById(R.id.buttonReadNo);
         txtWord = (TextView) findViewById(R.id.textReadWord);
 
-        //get a question
-        try {
-            question = service.ask(0,0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //display question
-        txtWord.setText(question.getWord());
-
+        //get a new question
+        getNewQuestion();
 
         //attach onClick listener to the button object
         btnReadYes.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View currentView) {
 
-                                              AnswerDTO answer = new AnswerDTO();
-                                              answer.setStudentId(0);
-                                              answer.setMkoId(0);
-                                              answer.setDate(new Date());
-                                              answer.setQuestionId(0);
-                                              answer.setGrade('1');
-                                              try {
-                                                  service.answer(0,0,answer);
-                                              } catch (Exception e) {
-                                                  e.printStackTrace();
-                                              }
+                                              //save answer: one means got it
+                                              saveAnswer("1");
 
                                               //get a question
-                                              try {
-                                                  question = service.ask(0,0);
-                                              } catch (Exception e) {
-                                                  e.printStackTrace();
-                                              }
+                                              getNewQuestion();
 
                                           }
                                       }
@@ -84,25 +63,11 @@ public class Read extends BaseActivity {
                                           @Override
                                           public void onClick(View currentView) {
 
-
-                                              AnswerDTO answer = new AnswerDTO();
-                                              answer.setStudentId(0);
-                                              answer.setMkoId(0);
-                                              answer.setDate(new Date());
-                                              answer.setQuestionId(0);
-                                              answer.setGrade('0');
-                                              try {
-                                                  service.answer(0,0,answer);
-                                              } catch (Exception e) {
-                                                  e.printStackTrace();
-                                              }
+                                              //save answer: zero means didn't get it
+                                              saveAnswer("0");
 
                                               //get a question
-                                              try {
-                                                  question = service.ask(0,0);
-                                              } catch (Exception e) {
-                                                  e.printStackTrace();
-                                              }
+                                              getNewQuestion();
 
                                           }
                                       }
@@ -111,7 +76,40 @@ public class Read extends BaseActivity {
 
     }
 
+    private void getNewQuestion(){
 
+        try {
+            //parameters: studentId, mkoId
+            //returns random question
+            question = svcQuestions.ask(0,0);
+
+            //set the WORD to the word from the Question
+            txtWord.setText(question.getWord());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void saveAnswer(String grade){
+        //Create an AnswerDTO object
+        AnswerDTO answer = new AnswerDTO();
+        //Set the properties of the object
+        answer.setStudentId(0);
+        answer.setMkoId(0);
+        answer.setDate(new Date());
+        //The question Id of the Answer object comes from the question object, which is a
+        //property of this Activity
+        answer.setQuestionId(question.getQuestionId());
+        //This should come from a StudentDTO property of this Activity
+        answer.setGrade(grade);
+        try {
+            svcQuestions.answer(answer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public WordDTO getWord() {
         return word;
     }
@@ -127,6 +125,5 @@ public class Read extends BaseActivity {
     public void setTxtWord(TextView txtWord) {
         this.txtWord = txtWord;
     }
-
 
 }

@@ -69,7 +69,7 @@ public class BaseActivity extends Activity {
 
     private void openOptionThree() {
         // declare the intent
-        Intent intent = new Intent(BaseActivity.this, Test.class);
+        Intent intent = new Intent(BaseActivity.this, Prime.class);
         // act on the intent
         startActivity(intent);
 

@@ -8,41 +8,82 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import us.proximal.spellwithme.R;
+import us.proximal.spellwithme.model.dao.AnswersDAO;
+import us.proximal.spellwithme.model.dao.QuestionsDAO;
 import us.proximal.spellwithme.model.dao.WordsDAO;
+import us.proximal.spellwithme.model.def.IAnswersDAO;
+import us.proximal.spellwithme.model.def.IQuestionsDAO;
 import us.proximal.spellwithme.model.def.IWordsDAO;
+import us.proximal.spellwithme.model.dto.AnswerDTO;
+import us.proximal.spellwithme.model.dto.QuestionDTO;
 import us.proximal.spellwithme.model.dto.WordDTO;
-import us.proximal.spellwithme.model.prime.PrimeWords;
+import us.proximal.spellwithme.controller.prime.PrimeDatabase;
+import us.proximal.spellwithme.controller.prime.PrimeQuestions;
+import us.proximal.spellwithme.controller.prime.PrimeWords;
 
-public class Test extends BaseActivity {
+public class Prime extends BaseActivity {
+
+
+    Button btnDatabaseExists;
+    Button btnDatabaseCreate;
+    Button btnDatabaseDelete;
 
     Button btnPrimeWords;
-    Button btnMakeDatabase;
-    Button btnToastWord;
-    Button btnDeleteTable;
+    Button btnPrimeQuestions;
 
-    //give the UI a service object
-    PrimeWords prime;
+    Button btnToastWord;
+    Button btnToastQuestion;
+
+    Button btnToastWords;
+    Button btnToastQuestions;
+    Button btnToastAnswers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-
-        prime = new PrimeWords();
+        setContentView(R.layout.activity_prime);
 
         //instantiate the buttons in the onCreate method
+        btnDatabaseExists = (Button) findViewById(R.id.buttonPrimeDatabaseExists);
+        btnDatabaseCreate = (Button) findViewById(R.id.buttonPrimeDatabaseCreate);
+        btnDatabaseDelete = (Button) findViewById(R.id.buttonPrimeDatabaseDelete);
+
         btnPrimeWords = (Button) findViewById(R.id.buttonPrimeWords);
-        btnMakeDatabase = (Button) findViewById(R.id.buttonMakeDatabase);
-        btnToastWord = (Button) findViewById(R.id.buttonToastWord);
-        btnDeleteTable = (Button) findViewById(R.id.buttonDeleteTable);
+        btnPrimeQuestions = (Button) findViewById(R.id.buttonPrimeQuestions);
+
+        btnToastWord = (Button) findViewById(R.id.buttonPrimeToastWord);
+        btnToastQuestion = (Button) findViewById(R.id.buttonPrimeToastQuestion);
+
+        btnToastWords = (Button) findViewById(R.id.buttonPrimeToastWords);
+        btnToastQuestions = (Button) findViewById(R.id.buttonPrimeToastQuestions);
+        btnToastAnswers = (Button) findViewById(R.id.buttonPrimeToastAnswers);
+
 
         //attach onClick listener to the button object
-        btnMakeDatabase.setOnClickListener(new View.OnClickListener() {
-                                               @Override
-                                               public void onClick(View currentView) {
-                                                   makeDatabase();
-                                               }
-                                           }
+        btnDatabaseExists.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View currentView) {
+                                                     databaseExists();
+                                                 }
+                                             }
+        );
+
+        //attach onClick listener to the button object
+        btnDatabaseCreate.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View currentView) {
+                                                     databaseCreate();
+                                                 }
+                                             }
+        );
+
+        //attach onClick listener to the button object
+        btnDatabaseDelete.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View currentView) {
+                                                     databaseDelete();
+                                                 }
+                                             }
         );
 
         //attach onClick listener to the button object
@@ -50,6 +91,15 @@ public class Test extends BaseActivity {
                                              @Override
                                              public void onClick(View currentView) {
                                                  primeWords();
+                                             }
+                                         }
+        );
+
+        //attach onClick listener to the button object
+        btnPrimeQuestions.setOnClickListener(new View.OnClickListener() {
+                                             @Override
+                                             public void onClick(View currentView) {
+                                                 primeQuestions();
                                              }
                                          }
         );
@@ -64,67 +114,238 @@ public class Test extends BaseActivity {
         );
 
         //attach onClick listener to the button object
-        btnDeleteTable.setOnClickListener(new View.OnClickListener() {
+        btnToastQuestion.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View currentView) {
-                                                deleteTable();
+                                                toastQuestion();
                                             }
                                         }
         );
+
+
+        //attach onClick listener to the button object
+        btnToastWords.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View currentView) {
+                                                   toastWords();
+                                               }
+                                           }
+        );
+
+        //attach onClick listener to the button object
+        btnToastQuestions.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View currentView) {
+                                                     toastQuestions();
+                                                 }
+                                             }
+        );
+
+        //attach onClick listener to the button object
+        btnToastAnswers.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View currentView) {
+                                                   toastAnswers();
+                                               }
+                                           }
+        );
+
     }
 
-    public void makeDatabase(){
-        WordDTO word = new WordDTO();
-        word.setWord("blank");
-        IWordsDAO dao = new WordsDAO(this);
-        dao.create(word);
-        try {
-            dao.read("blank");
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void databaseDelete() {
+
+        //Create a prime object
+        PrimeDatabase prime = new PrimeDatabase(this);
+
+        boolean result = prime.delete(this);
+
+        if(result){
+            makeToast("The database has been deleted.");
         }
+    }
+
+    private void databaseExists() {
+
+        //Create a prime object
+        PrimeDatabase prime = new PrimeDatabase(this);
+
+        // check if the database exists
+        boolean exists = prime.exists(this);
+
+        //debug
+        //exists = true;
+
+        // delete it if it exists
+        if (exists){
+            makeToast("The database does exist.");
+        }
+        else {
+            makeToast("The database does not exist.");
+        }
+    }
+
+    public void databaseCreate(){
+
+        //Create a prime object
+        PrimeDatabase prime = new PrimeDatabase(this);
+
+        // check if the database exists
+        boolean exists = prime.exists(this);
+
+        //debug
+        //exists = true;
+
+        // delete it if it exists
+        if (exists){
+            prime.delete(this);
+        }
+
+        // create the new database
+        prime.create(this);
 
     }
 
     public void toastWord(){
+        //Make a DAO
         IWordsDAO dao = new WordsDAO(this);
+        //Make a DTO
         WordDTO word = new WordDTO();
+        //Make a String for toast
         String toast;
 
-
+        //Call the list() method to make an ArrayList of words
         ArrayList<WordDTO> words = dao.list();
+
+        //Count the size() of the ArrayList
         int count = words.size();
 
+        //Make a random number between 1 and the size() of the ArrayList
         int rand = (int) (count * Math.random());
 
         try {
             //word.setWord(dao.read("the").getWord());
+            //Read a random word
             word.setWord(dao.read(rand).getWord());
+
+            toast = "The word is: " + word.getWord();
+
+            makeToast( toast );
+
+            // Toast a count of all records
+            toastWords();
+
         } catch (Exception e) {
+
+            // Toast a count of all records
+            toastWords();
+
+            // Toast the exception
+            makeToast( e.toString() );
+
             e.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(), "The word is: " + word.getWord(), Toast.LENGTH_LONG).show();
+
+    }
 
 
+    public void toastQuestion(){
+        //Make a DAO
+        IQuestionsDAO dao = new QuestionsDAO(this);
+        //Make a DTO
+        QuestionDTO dto = new QuestionDTO();
+        //Make a String for toast
+        String toast;
+
+        //Call the list() method to make an ArrayList of words
+        ArrayList<QuestionDTO> list = dao.list();
+
+        //Count the size() of the ArrayList
+        int count = list.size();
+
+        //Make a random number between 1 and the size() of the ArrayList
+        int rand = (int) (count * Math.random());
+
+        try {
+            // Read a random record
+            dto.setText(dao.read(rand).getText() );
+
+            // Toast it
+            makeToast("The question is: " + dto.getText() );
+
+            // Toast a count of all records
+            toastQuestions();
+
+        } catch (Exception e) {
+            toastQuestions();
+
+            // Toast the exception
+            makeToast(e.toString());
+
+            e.printStackTrace();
+        }
 
     }
 
     public void primeWords(){
-        Toast.makeText(getApplicationContext(), "Here we go...", Toast.LENGTH_LONG).show();
 
+        makeToast("Here we go...");
+        //give the UI a service object
+        PrimeWords prime = new PrimeWords();
         //send the service object this ui object
         prime.fillTheDatabaseWithWords(this);
-
-        Toast.makeText(getApplicationContext(), "Call to prime done!", Toast.LENGTH_LONG).show();
+        makeToast("Call to PrimeWords done!");
 
     }
 
-    public void deleteTable(){
-        IWordsDAO dao = new WordsDAO(this);
-        ArrayList<WordDTO> words = dao.list();
-        int count = words.size();
+    public void primeQuestions(){
 
-        Toast.makeText(getApplicationContext(), "There are " + count + " words in the words table.", Toast.LENGTH_LONG).show();
+        makeToast("Here we go...");
+        PrimeQuestions prime = new PrimeQuestions();
+        //send the service object this ui object
+        prime.fillTheDatabaseWithQuestions(this);
+        makeToast("Call to PrimeQuestions done!");
+
+    }
+
+    public void deleteTable(String tableName){
+
+        //TODO: implement me
+
+        makeToast("not implemented");
+
+    }
+
+
+    private void toastWords() {
+        IWordsDAO dao = new WordsDAO(this);
+        ArrayList<WordDTO> list = dao.list();
+        int count = list.size();
+        makeToast("There are " + count + " records in the words table.");
+    }
+
+    private void toastQuestions() {
+        IQuestionsDAO dao = new QuestionsDAO(this);
+        ArrayList<QuestionDTO> list = dao.list();
+        int count = list.size();
+        makeToast("There are " + count + " records in the questions table.");
+
+    }
+
+    public void toastAnswers(){
+        IAnswersDAO dao = new AnswersDAO(this);
+        ArrayList<AnswerDTO> list = dao.list();
+        int count = list.size();
+        makeToast("There are " + count + " records in the words table.");
+    }
+
+
+    /*
+    General method for making toast
+    */
+    public void makeToast(String toast){
+
+        Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
+
 
     }
 //

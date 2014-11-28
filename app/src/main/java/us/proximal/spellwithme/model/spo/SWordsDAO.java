@@ -1,4 +1,4 @@
-package us.proximal.spellwithme.model.test;
+package us.proximal.spellwithme.model.spo;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import us.proximal.spellwithme.model.dto.WordDTO;
 /**
  * Created by b on 11/26/14.
  */
-public class TWordsDAO implements IWordsDAO {
+public class SWordsDAO implements IWordsDAO {
     @Override
     public boolean create(WordDTO word) {
         return false;

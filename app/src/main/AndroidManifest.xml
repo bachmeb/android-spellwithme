@@ -32,8 +32,12 @@
             android:label="@string/title_activity_read" >
         </activity>
         <activity
-            android:name=".view.Test"
+            android:name=".view.Prime"
             android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name=".view.MyActivity"
+            android:label="@string/title_activity_my" >
         </activity>
     </application>
 

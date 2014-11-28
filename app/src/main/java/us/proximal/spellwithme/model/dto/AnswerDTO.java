@@ -7,11 +7,20 @@ import java.util.Date;
  */
 public class AnswerDTO {
 
+    private int answerId;
     private int questionId;
     private int studentId;
     private int mkoId;
     private Date date;
-    private char grade;
+    private String grade;
+
+    public int getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
+    }
 
     public int getQuestionId() {
         return questionId;
@@ -45,11 +54,11 @@ public class AnswerDTO {
         this.date = date;
     }
 
-    public char getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(char grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 }

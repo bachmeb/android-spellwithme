@@ -5,13 +5,13 @@ import us.proximal.spellwithme.controller.def.IWordsService;
 import us.proximal.spellwithme.model.def.IQuestionsDAO;
 import us.proximal.spellwithme.model.dto.AnswerDTO;
 import us.proximal.spellwithme.model.dto.QuestionDTO;
-import us.proximal.spellwithme.model.test.TQuestionsDAO;
+import us.proximal.spellwithme.model.spo.SQuestionsDAO;
 
 /**
  * Created by b on 11/26/14.
  */
 public class TQuestionsService implements IQuestionsService {
-    IQuestionsDAO dao = new TQuestionsDAO();
+    IQuestionsDAO dao = new SQuestionsDAO();
     IWordsService service = new TWordsService();
 
     @Override
@@ -28,8 +28,14 @@ public class TQuestionsService implements IQuestionsService {
     }
 
     @Override
-    public void answer(int studentId, int mkoId, AnswerDTO answer) throws Exception {
+    public QuestionDTO ask(int studentId, int mkoId, int questionId) throws Exception {
+        return null;
+    }
 
+    @Override
+    public void answer(AnswerDTO answer) throws Exception {
 
     }
+
+
 }

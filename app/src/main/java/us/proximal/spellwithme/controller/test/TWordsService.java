@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import us.proximal.spellwithme.controller.def.IWordsService;
 import us.proximal.spellwithme.model.def.IWordsDAO;
 import us.proximal.spellwithme.model.dto.WordDTO;
-import us.proximal.spellwithme.model.test.TWordsDAO;
+import us.proximal.spellwithme.model.spo.SWordsDAO;
 
 /**
  * Created by b on 11/24/14.
@@ -15,7 +15,7 @@ public class TWordsService implements IWordsService{
 
     public TWordsService(){
 
-        dao = new TWordsDAO();
+        dao = new SWordsDAO();
 
     }
 

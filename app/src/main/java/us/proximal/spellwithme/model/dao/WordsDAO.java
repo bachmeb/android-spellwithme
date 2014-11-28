@@ -19,119 +19,122 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
 
     private static final String TABLE_NAME = "words";
     private static final String PRIMARY_KEY = "wordId";
+
     private static final String WORD = "word";
+    private static final String LETTERS = "letters";
+    private static final String LENGTH = "length";
+    private static final String BEGINS_WITH = "beginsWith";
+    private static final String ENDS_WITH = "endsWith";
+    private static final String CATEGORY = "category";
+    private static final String LANGUAGE = "language";
+    private static final String DOLCH = "dolch";
+
 
 //    public ThingDAO(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
 //        super(context, name, factory, version);
 //    }
 
     public WordsDAO(Context context) {
+
         super(context, "spellwithme.db", null, 1);
     }
 
 
     @Override
-    public boolean create(WordDTO w) {
+    public boolean create(WordDTO dto) {
 
-        // create an insert statement to insert this thing into the database
-        // content values is like a hashamp.
-        ContentValues cv = new ContentValues(6);
-        cv.put(WORD, w.getWord());
+        // Create a ContentValues object with same number of elements as DTO fields (minus 2)
+        ContentValues cv = new ContentValues(8);
 
+        // Add values from DTO fields
+        cv.put(WORD, dto.getWord() );
+        //cv.put(LETTERS, dto.getLetters().toString() );
+        cv.put(LENGTH, dto.getLength() );
+        cv.put(BEGINS_WITH, dto.getBeginsWith() );
+        cv.put(ENDS_WITH,  dto.getEndsWith() );
+        cv.put(CATEGORY,  dto.getCategory() );
+        cv.put(LANGUAGE,  dto.getLanguage() );
+        cv.put(DOLCH,  dto.isDolch() );
 
-        // put into the database
+        // put the values into database
         getWritableDatabase().insert(TABLE_NAME, PRIMARY_KEY, cv);
 
         return true;
+
     }
 
     @Override
-    public WordDTO read(int wordId) throws Exception {
+    public WordDTO read(int key) throws Exception {
 
         // our flexible query.
-        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + wordId +"' ";
+        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ PRIMARY_KEY +" = '" + key +"' ";
+
+        // run the query.
+        Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
+
+        if (cursor.getCount() == 1) {
+
+            // move cursor to the first record
+            cursor.moveToFirst();
+
+            WordDTO dto = populateObjectFromCursor(cursor);
+
+            // return the object
+            return dto;
+
+        } else if (cursor.getCount() > 1){
+            // More than one record
+            throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
+        } else {
+            // Less than one record
+            return null;
+        }
+    }
+
+
+    @Override
+    public WordDTO read(String text) throws Exception {
+
+        // our flexible query.
+        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ WORD +" = '" + text +"' ";
 
         // run the query.
         Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
 
 
         if (cursor.getCount() == 1) {
-            // find out who our user is.
-
-            // move our cursor to the first position.
+            // Move cursor to first record
             cursor.moveToFirst();
 
-            WordDTO w = populateThingFromCursor(cursor);
+            // Make the object
+            WordDTO dto = populateObjectFromCursor(cursor);
 
-            // return the populated user.
-            return w;
+            // Return the object
+            return dto;
+
         } else if (cursor.getCount() > 1){
+            // More than one record
             throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
         } else {
-            // if we got here, we have 0 results.  Return null.
+            // Less than one record
             return null;
         }
     }
 
     @Override
     public void update(WordDTO word) {
-
+        //TODO implement update
     }
 
     @Override
     public void delete(WordDTO word) {
-
+        //TODO implement delete
     }
-
-    private WordDTO populateThingFromCursor(Cursor cursor) {
-
-        // create a new user object to hold our data.
-        WordDTO w = new WordDTO();
-
-        // populate this user object from our database data.
-        String word = cursor.getString(cursor.getColumnIndex(WORD));
-
-
-        // populate the thing.
-        w.setWord(word);
-
-
-        return w;
-    }
-
-    @Override
-    public WordDTO read(String word) throws Exception {
-
-        // our flexible query.
-        String fetchQuery  = "select * from " + TABLE_NAME + " where "+ WORD +" = '" + word +"' ";
-
-        // run the query.
-        Cursor cursor = getReadableDatabase().rawQuery(fetchQuery, null);
-
-
-        if (cursor.getCount() == 1) {
-            // find out who our user is.
-
-            // move our cursor to the first position.
-            cursor.moveToFirst();
-
-            WordDTO w = populateThingFromCursor(cursor);
-
-            // return the populated user.
-            return w;
-        } else if (cursor.getCount() > 1){
-            throw new Exception("Too many results returned.  Expected 1, got " + cursor.getCount());
-        } else {
-            // if we got here, we have 0 results.  Return null.
-            return null;
-        }
-    }
-
 
     @Override
     public ArrayList<WordDTO> list() {
 
-        // Instantiate ArrayList
+        // Make a new ArrayList
         ArrayList<WordDTO> words = new ArrayList<WordDTO>();
 
         // Write the SQL query
@@ -140,22 +143,53 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
         // Execute the query
         Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
-        // Call moveToFirst on the cursor object
+        // Move the cursor to the first record
         cursor.moveToFirst();
 
-        // iterate over the cursor until it reaches the last row.
-        // notice the ! which negates true to false.
+        // Loop for as long as the cursor is not after the last record
         while(!cursor.isAfterLast()) {
-            // populate plant from cursor.
-            WordDTO w = populateThingFromCursor(cursor);
+            // populate the object from cursor
+            WordDTO dto = populateObjectFromCursor(cursor);
 
-            // add to our collection.
-            words.add(w);
+            // add the DTO to the collection of DTOs
+            words.add(dto);
 
-            // move to the next result.
+            // Move the cursor to the next record
             cursor.moveToNext();
         }
+        // Return the collection
         return words;
+    }
+
+    private WordDTO populateObjectFromCursor(Cursor cursor) {
+
+        // Create a new DTO
+        WordDTO dto = new WordDTO();
+        
+        // Create variables for each cursor field
+        int wid = cursor.getInt(cursor.getColumnIndex(PRIMARY_KEY) );
+        String wor = cursor.getString(cursor.getColumnIndex(WORD));
+        //String let = cursor.getString(cursor.getColumnIndex(LETTERS));
+        int len = cursor.getInt(cursor.getColumnIndex(LENGTH));
+        String beg = cursor.getString(cursor.getColumnIndex(BEGINS_WITH));
+        String end = cursor.getString(cursor.getColumnIndex(ENDS_WITH));
+        String cat = cursor.getString(cursor.getColumnIndex(CATEGORY));
+        String lan = cursor.getString(cursor.getColumnIndex(LANGUAGE));
+        int dol = cursor.getInt(cursor.getColumnIndex(DOLCH));
+
+        // Populate the DTO with the variables
+        dto.setWordId(wid);
+        dto.setWord(wor);
+        //dto.setLetters(let.toString());
+        dto.setLength(len);
+        dto.setBeginsWith(beg);
+        dto.setEndsWith(end);
+        dto.setCategory(cat);
+        dto.setLanguage(lan);
+        dto.setDolch(  (dol==1) ? true : false );
+
+        // Return the object
+        return dto;
     }
 
     public void onUpdate(SQLiteDatabase db) {
@@ -169,20 +203,34 @@ public class WordsDAO extends SQLiteOpenHelper implements IWordsDAO {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //drop the USERS table if it exists
+        //drop the table if it already exists
         this.onUpdate(db);
 
-        // define the schema.
-        String userSchema = "CREATE TABLE "
+        // define the schema
+        String schema = "CREATE TABLE "
                 + TABLE_NAME
                 + " ("
                 + PRIMARY_KEY
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + WORD
+                + " TEXT, "
+                + LETTERS
+                + " TEXT, "
+                + LENGTH
+                + " INTEGER, "
+                + BEGINS_WITH
+                + " TEXT, "
+                + ENDS_WITH
+                + " TEXT, "
+                + CATEGORY
+                + " TEXT, "
+                + LANGUAGE
+                + " TEXT, "
+                + DOLCH
                 + " TEXT );";
 
-        // create our table.
-        db.execSQL(userSchema);
+        // create the table
+        db.execSQL(schema);
 
     }
 

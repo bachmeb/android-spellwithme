@@ -27,6 +27,7 @@ public class QuestionsDAO extends SQLiteOpenHelper implements IQuestionsDAO {
 //    }
 
     public QuestionsDAO(Context context) {
+
         super(context, "spellwithme.db", null, 1);
     }
 

@@ -1,4 +1,4 @@
-package us.proximal.spellwithme.model.test;
+package us.proximal.spellwithme.model.spo;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import us.proximal.spellwithme.model.dto.QuestionDTO;
  * Created by b on 11/26/14.
  */
 
-public class TQuestionsDAO implements IQuestionsDAO {
+public class SQuestionsDAO implements IQuestionsDAO {
 
     @Override
     public boolean create(QuestionDTO q) throws Exception {

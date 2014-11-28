@@ -18,5 +18,5 @@ public interface IQuestionsDAO {
 
     void delete(QuestionDTO q) throws Exception;
 
-    ArrayList<QuestionDTO> list();
+    ArrayList<QuestionDTO> list() throws Exception;
 }
